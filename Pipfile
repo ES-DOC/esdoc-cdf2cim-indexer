@@ -11,6 +11,7 @@ fakeredis = "*"
 hiredis = "*"
 pytest = "*"
 redis = "*"
+pyessv = "*"
 
 [requires]
 python_version = "3.8.3"
