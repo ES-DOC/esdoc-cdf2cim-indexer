@@ -1,0 +1,23 @@
+# ###############################################################
+# PATHS
+# ###############################################################
+
+# Set home.
+export CDF2CIM_INDEXER_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Import paths.
+source $CDF2CIM_INDEXER_HOME/sh/utils/set_paths.sh
+
+# ###############################################################
+# ENV
+# ###############################################################
+
+# Import environment variables.
+source $CDF2CIM_INDEXER_PATH_ROOT/env
+
+# ###############################################################
+# ALIASES
+# ###############################################################
+
+# Import aliases
+source $CDF2CIM_INDEXER_HOME/sh/utils/set_aliases.sh

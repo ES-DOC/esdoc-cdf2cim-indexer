@@ -12,6 +12,7 @@ hiredis = "*"
 pytest = "*"
 redis = "*"
 pyessv = "*"
+supervisor = "*"
 
 [requires]
 python_version = "3.8.3"
