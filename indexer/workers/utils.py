@@ -28,4 +28,4 @@ def start_indexation():
     """Starts indexation actors by JIT importing actors.
     
     """
-    import indexer.actors.cmip6.simulations
+    import indexer.handlers.cmip6.simulations.actors

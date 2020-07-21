@@ -10,7 +10,7 @@ from indexer.utils import vocabs
 mq.initialise()
 
 # Import simulation processing actor. 
-from indexer.actors.cmip6.simulations import process_simulation
+from indexer.handlers.cmip6.simulations.actors import process_simulation
 
 # Iterate thourgh all combinations of cmip6 / institute / source-id / experiments 
 # combinations where data has been published.
@@ -23,3 +23,4 @@ for i, s, e in vocabs.yield_cmip6_simulations():
             s.canonical_name,
             e.canonical_name,
         )
+        break

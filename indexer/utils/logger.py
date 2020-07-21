@@ -1,0 +1,73 @@
+# -*- coding: utf-8 -*-
+"""
+.. module:: utils.logger.py
+   :license: GPL/CeCIL
+   :platform: Unix
+   :synopsis: Logging utility functions.
+
+.. moduleauthor:: Mark Conway-Greenslade <momipsl@ipsl.jussieu.fr>
+
+
+"""
+import datetime as dt
+
+
+
+# Set of logging levels.
+LOG_LEVEL_DEBUG = 'DUBUG'
+LOG_LEVEL_INFO = 'INFO'
+LOG_LEVEL_WARNING = 'WARN'
+LOG_LEVEL_ERROR = 'ERROR'
+LOG_LEVEL_CRITICAL = 'CRITICAL'
+LOG_LEVEL_FATAL = 'FATAL'
+LOG_LEVEL_SECURITY = 'SECURITY'
+
+# Text to display when passed a null message.
+_NULL_MSG = "-------------------------------------------------------------------------------"
+
+
+def _get_formatted_message(msg, level):
+    """Returns a message formatted for logging.
+
+    """
+    if msg is None:
+        return _NULL_MSG
+
+    return "{} [{}] :: CDF2CIM-IDX :: {}".format(
+        str(dt.datetime.utcnow())[0:-7],
+        level,
+        str(msg).strip()
+        )
+
+
+def log(msg=None, level=LOG_LEVEL_INFO):
+    """Outputs a message to log.
+
+    :param str msg: Message to be written to log.
+    :param str level: Message level (e.g. INFO).
+
+    """
+    # TODO use structlog rather than printing to stdout
+    print(_get_formatted_message(msg, level))
+
+
+def log_warning(msg):
+    """Logs a warning event.
+
+    :param str msg: A log message.
+
+    """
+    log(msg, LOG_LEVEL_WARNING)
+
+
+def log_error(err):
+    """Logs a runtime error.
+
+    :param Exception err: Error to be written to log.
+
+    """
+    msg = "!! RUNTIME ERROR !! :: "
+    if issubclass(BaseException, err.__class__):
+        msg += "{} :: ".format(err.__class__)
+    msg += "{}".format(err)
+    log(msg, LOG_LEVEL_ERROR)
