@@ -26,7 +26,7 @@ function main()
 
     # Launch worker.
     cd $CDF2CIM_INDEXER_HOME
-    pipenv run dramatiq interactive --path $CDF2CIM_INDEXER_HOME/indexer/workers --watch $CDF2CIM_INDEXER_PATH_SRC
+    pipenv run dramatiq interactive --path $CDF2CIM_INDEXER_HOME/indexer/utils/workers --watch $CDF2CIM_INDEXER_PATH_SRC
 
     # Tidy up.
     rm $interactive_socket

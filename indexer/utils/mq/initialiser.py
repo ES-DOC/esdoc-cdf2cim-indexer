@@ -2,7 +2,7 @@ import enum
 
 import dramatiq
 
-from indexer.mq.brokers import get_broker
+from indexer.utils.mq.brokers import get_broker
 
 
 

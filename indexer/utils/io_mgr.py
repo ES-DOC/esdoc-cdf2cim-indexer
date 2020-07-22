@@ -11,6 +11,9 @@ from indexer.utils import logger
 # CDF2CIM JSON archive.
 _PATH_ARCHIVE = pathlib.Path(os.getenv("CDF2CIM_ARCHIVE_HOME")) / "data"
 
+# CDF2CIM work in progress folder.
+_PATH_WIP = pathlib.Path(os.path.expanduser('~/.cdf2cim-indexer'))
+
 # CDF2CIM JSON file type wrappers.
 _JSON_BLOB_TYPES = {
     "cmip6": SimulationJSONBlob
@@ -39,77 +42,58 @@ def yield_json_blobs(mip_era: str, institute: str, source_id: str, experiment: s
         return
 
     # Yield blobs.
-    for f in path.glob("*.json"):
-        with open(f, 'r') as fstream:
-            yield blob_cls(
-                institute,
-                source_id,
-                experiment,
-                json.loads(fstream.read())
+    for fpath in path.glob("*.json"):
+        with open(fpath, 'r') as fstream:
+            try:
+                yield blob_cls(
+                    fpath,
+                    institute,
+                    source_id,
+                    experiment,
+                    json.loads(fstream.read())
                 )
+            except Exception as err:
+                logger.log_error(err)
 
 
-# 1951-01-01T00:00:00Z::1961-01-01T00:00:00Z
-# {
-#     "_hash_id": "83a4a507797407eb9df3774fde726f71",
-#     "activity_id": [
-#         "HighResMIP"
-#     ],
-#     "branch_time_in_child": "2001-01-01T00:00:00Z",
-#     "branch_time_in_parent": "1950-01-01T00:00:00Z",
-#     "calendar": "proleptic_gregorian",
-#     "dataset_versions": [
-#         "v20170825"
-#     ],
-#     "end_time": "2011-01-01T00:00:00Z",
-#     "experiment_id": "control-1950",
-#     "filenames": [
-#         "/mnt/lustre02/work/ik1017/CMIP6/data/CMIP6/HighResMIP/AWI/AWI-CM-1-1-HR/control-1950/r1i1p1f2/Omon/wo/gn/v20170825/wo_Omon_AWI-CM-1-1-HR_control-1950_r1i1p1f2_gn_200101-201012.nc"
-#     ],
-#     "forcing_index": 2,
-#     "further_info_url": "https://furtherinfo.es-doc.org/CMIP6.AWI.AWI-CM-1-1-HR.control-1950.none.r1i1p1f2",
-#     "initialization_index": 1,
-#     "institution_id": "AWI",
-#     "mip_era": "CMIP6",
-#     "parent_forcing_index": 2,
-#     "parent_initialization_index": 1,
-#     "parent_physics_index": 1,
-#     "parent_realization_index": 1,
-#     "physics_index": 1,
-#     "realization_index": 1,
-#     "source_id": "AWI-CM-1-1-HR",
-#     "start_time": "2001-01-01T00:00:00Z",
-#     "sub_experiment_id": "none"
-# }
-# 1951-01-01T01:30:00Z::1960-12-31T22:30:00Z
-# {
-#     "_hash_id": "83a4a507797407eb9df3774fde726f71",
-#     "activity_id": [
-#         "HighResMIP"
-#     ],
-#     "branch_time_in_child": "2001-01-01T00:00:00Z",
-#     "branch_time_in_parent": "1950-01-01T00:00:00Z",
-#     "calendar": "proleptic_gregorian",
-#     "dataset_versions": [
-#         "v20170825"
-#     ],
-#     "end_time": "2011-01-01T00:00:00Z",
-#     "experiment_id": "control-1950",
-#     "filenames": [
-#         "/mnt/lustre02/work/ik1017/CMIP6/data/CMIP6/HighResMIP/AWI/AWI-CM-1-1-HR/control-1950/r1i1p1f2/Omon/wo/gn/v20170825/wo_Omon_AWI-CM-1-1-HR_control-1950_r1i1p1f2_gn_200101-201012.nc"
-#     ],
-#     "forcing_index": 2,
-#     "further_info_url": "https://furtherinfo.es-doc.org/CMIP6.AWI.AWI-CM-1-1-HR.control-1950.none.r1i1p1f2",
-#     "initialization_index": 1,
-#     "institution_id": "AWI",
-#     "mip_era": "CMIP6",
-#     "parent_forcing_index": 2,
-#     "parent_initialization_index": 1,
-#     "parent_physics_index": 1,
-#     "parent_realization_index": 1,
-#     "physics_index": 1,
-#     "realization_index": 1,
-#     "source_id": "AWI-CM-1-1-HR",
-#     "start_time": "2001-01-01T00:00:00Z",
-#     "sub_experiment_id": "none"
-# }
+def write_json_blob(mip_era: str, institute: str, experiment: str, source_id: str, blob: SimulationJSONBlob):
+    """Writes a json blob to local file system as part of processing.
+    
+    :param mip_era: Canonical (pyessv) name of mip_era.
+    :param institute: Canonical (pyessv) name of institute.
+    :param source_id: Canonical (pyessv) name of source_id.
+    :param experiment: Canonical (pyessv) name of experiment.
+    :param blob: CDF2CIM JSON blob wrapper.
+
+    """
+    # Set base path.
+    path_base = _PATH_WIP / mip_era / institute / experiment / source_id / str(blob.ripf) / blob.calendar
+
+    # Create directories raw path.
+    for dpath in (
+        path_base / "raw",
+        path_base / "raw_duplicate",
+        path_base / "raw_unique",
+    ):
+        if not dpath.exists():
+            os.makedirs(dpath)
+
+    # Filename reflects time range.
+    fname = f"{blob.range}_{blob.hash_id}.json".replace(" :: ", "_")
+
+    # Copy all -> raw.
+    fpath = path_base / "raw" / fname
+    if not fpath.exists():
+        os.symlink(blob.fpath, fpath)
+
+    # Copy duplicates -> raw_duplicates.
+    if blob.is_duplicate_time_slice:
+        fpath = path_base / "raw_duplicate" / fname
+        if not fpath.exists():
+            os.symlink(blob.fpath, fpath)
+
+    # Copy unique -> raw_unique.
+    if not blob.is_duplicate_time_slice:
+        fpath = path_base / "raw_unique" / fname
+        if not fpath.exists():
+            os.symlink(blob.fpath, fpath)

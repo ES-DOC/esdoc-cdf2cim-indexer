@@ -2,9 +2,9 @@ import os
 
 from dramatiq.broker import Broker
 
-from indexer.mq.brokers import rabbitmq
-from indexer.mq.brokers import redis
-from indexer.mq.brokers import stub
+from indexer.utils.mq.brokers import rabbitmq
+from indexer.utils.mq.brokers import redis
+from indexer.utils.mq.brokers import stub
 from indexer.utils import env
 
 

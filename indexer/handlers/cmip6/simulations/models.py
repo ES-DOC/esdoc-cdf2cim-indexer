@@ -36,11 +36,10 @@ class SimulationTimeRange():
 
 
 class SimulationTimeSlice():
-    def __init__(self, calendar: str, range: SimulationTimeRange, range_of_branch: SimulationTimeRange):
+    def __init__(self, calendar: str, range: SimulationTimeRange):
         """Instance initialiser."""
         self.calendar: str = calendar
         self.range: SimulationTimeRange = range
-        self.range_of_branch: SimulationTimeRange = range_of_branch
 
 
     def __eq__(self, other) -> bool:
@@ -88,11 +87,11 @@ class Simulation():
     def __init__(self, institute: str, source_id: str, experiment: str):
         """Instance initialiser."""
         self.experiment: str = experiment
+        self.further_info_url: str = None
         self.institute: str = institute
         self.mip_era: str = "cmip6"
         self.source_id: str = source_id
         self.ripf: SimulationAxis = None
-        self.ripf_parent: SimulationAxis = None
         self.time_series: list = list()
 
 
@@ -117,13 +116,17 @@ class SimulationJSONBlob():
     """Wraps a JSON blob published from an esgf node.
     
     """ 
-    def __init__(self, institute: str, source_id: str, experiment: str, blob: dict):
+    def __init__(self, fpath: str, institute: str, source_id: str, experiment: str, blob: dict):
         """Instance initialiser."""
+        import json
         self.calendar = blob['calendar']
+        self.fpath = fpath
+        self.further_info_url: str = blob['further_info_url']
         self.institute = institute
         self.source_id = source_id
         self.experiment = experiment
         self.hash_id = blob['_hash_id']
+        self.is_duplicate_time_slice = False
         self.mip_era = blob['mip_era'].lower()
         self.ripf = SimulationAxis(
             blob['realization_index'],
@@ -131,17 +134,7 @@ class SimulationJSONBlob():
             blob['physics_index'],
             blob['forcing_index'],
         )
-        self.ripf_parent = SimulationAxis(
-            blob['parent_realization_index'],
-            blob['parent_initialization_index'],
-            blob['parent_physics_index'],
-            blob['parent_forcing_index'],
-        )
         self.range = SimulationTimeRange(
             datetime.datetime.strptime(blob['start_time'], "%Y-%m-%dT%H:%M:%SZ"),
             datetime.datetime.strptime(blob['end_time'], "%Y-%m-%dT%H:%M:%SZ"),
-        )
-        self.range_of_branch = SimulationTimeRange(
-            datetime.datetime.strptime(blob['branch_time_in_child'], "%Y-%m-%dT%H:%M:%SZ"),
-            datetime.datetime.strptime(blob['branch_time_in_parent'], "%Y-%m-%dT%H:%M:%SZ"),
         )
