@@ -13,7 +13,10 @@ def get_cmip6_institutes(institution_id=None):
     """Returns set of institutes to be processed.
 
     """
-    collection = pyessv.WCRP.cmip6.institution_id if institution_id in (None, '', 'all') else [pyessv.WCRP.cmip6.institution_id[institution_id]]
+    if institution_id in (None, '', 'all'):
+        collection = pyessv.WCRP.cmip6.institution_id
+    else:
+        collection = [pyessv.WCRP.cmip6.institution_id[institution_id]]
 
     return sorted(collection, key=lambda i: i.canonical_name)
 

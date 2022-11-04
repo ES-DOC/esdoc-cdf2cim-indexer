@@ -25,6 +25,12 @@ function log()
 	fi
 }
 
+# Emits a logging banner.
+function log_banner()
+{
+	log "-------------------------------------------------------------------------------------------"
+}
+
 # Wraps pushd command to suppress stdout.
 function pushd () {
     command pushd "$@" > /dev/null

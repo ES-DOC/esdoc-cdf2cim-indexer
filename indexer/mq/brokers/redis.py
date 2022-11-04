@@ -21,6 +21,7 @@ def get_broker() -> RedisBroker:
     """Returns instance of redis MQ broker.
     
     """
+    print(111)
     return RedisBroker(
         db=EnvVars.DB,
         host=EnvVars.HOST,
