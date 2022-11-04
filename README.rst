@@ -13,7 +13,7 @@ ES-DOC stands for Earth Science - Documentation.  Its goal is to provide softwar
 What is esdoc-cdf2cim-indexer ?
 --------------------------------------
 
-A python library to perform a map-reduce job over hundres of thousands of CDF@CIM JSON files.
+A python library to perform a map-reduce job over hundreds of thousands of CDF2CIM JSON files.
 
 
 Why esdoc-cdf2cim-indexer ?
@@ -25,7 +25,7 @@ A documentation eco-system is only as good as the available tooling.  Simulation
 Who uses esdoc-cdf2cim-indexer ?
 --------------------------------------
 
-ES-DOC deverlopers building out the ES-DOC eco-system.
+ES-DOC developers building out the ES-DOC eco-system.
 
 
 Further Information ?
