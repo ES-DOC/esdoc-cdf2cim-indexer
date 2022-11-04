@@ -20,7 +20,12 @@ _JSON_BLOB_TYPES = {
 }
 
 
-def yield_json_blobs(mip_era: str, institute: str, source_id: str, experiment: str) -> typing.Generator:
+def yield_json_blobs(
+    mip_era: str,
+    institute: str,
+    source_id: str,
+    experiment: str
+) -> typing.Generator:
     """Factory method: yields published CDF2CIM json blobs.
 
     :param mip_era: Canonical (pyessv) name of mip_era.
@@ -31,7 +36,7 @@ def yield_json_blobs(mip_era: str, institute: str, source_id: str, experiment: s
     """
     # Set path.
     path = _PATH_ARCHIVE / mip_era / institute / source_id / experiment
-    if path.exists == False:
+    if path.exists is False:
         logger.log_warning(f"Invalid CDF2CIM archive folder: {path}")
         return
     
@@ -56,7 +61,13 @@ def yield_json_blobs(mip_era: str, institute: str, source_id: str, experiment: s
                 logger.log_error(err)
 
 
-def write_json_blob(mip_era: str, institute: str, experiment: str, source_id: str, blob: SimulationJSONBlob):
+def write_json_blob(
+    mip_era: str,
+    institute: str,
+    experiment: str,
+    source_id: str,
+    blob: SimulationJSONBlob
+):
     """Writes a json blob to local file system as part of processing.
     
     :param mip_era: Canonical (pyessv) name of mip_era.

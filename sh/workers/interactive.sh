@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Import utils.
-source $CDF2CIM_INDEXER_HOME/sh/utils.sh
+source $CDF2CIM_INDEXER_HOME/sh/utils/misc.sh
 
 # Main entry point.
 function main()
@@ -25,10 +25,11 @@ function main()
     touch $interactive_socket
 
     # Launch worker.
-    cd $CDF2CIM_INDEXER_HOME
+    pushd $CDF2CIM_INDEXER_HOME
     pipenv run dramatiq interactive \
         --path $CDF2CIM_INDEXER_HOME/indexer/utils/workers \
         --watch $CDF2CIM_INDEXER_HOME/indexer
+    popd -1
 
     # Tidy up.
     rm $interactive_socket
