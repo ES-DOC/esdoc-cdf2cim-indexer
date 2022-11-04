@@ -42,7 +42,6 @@ if [[ -f $CDF2CIM_INDEXER_HOME/ops/config/env.conf ]]; then
 fi
 
 # Ensure shell scripts are executable.
-chmod a+x $CDF2CIM_INDEXER_HOME/sh/*.sh
 chmod a+x $CDF2CIM_INDEXER_HOME/sh/*/*.sh
 
 # ###############################################################

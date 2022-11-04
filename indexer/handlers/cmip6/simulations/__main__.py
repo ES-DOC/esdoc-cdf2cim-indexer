@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from indexer.utils import mq
+from indexer import mq
 from indexer.utils import vocabs
 
 

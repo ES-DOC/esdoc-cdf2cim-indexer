@@ -27,7 +27,7 @@ function main()
     # Launch worker.
     pushd $CDF2CIM_INDEXER_HOME
     pipenv run dramatiq interactive \
-        --path $CDF2CIM_INDEXER_HOME/indexer/utils/workers \
+        --path $CDF2CIM_INDEXER_HOME/indexer/workers \
         --watch $CDF2CIM_INDEXER_HOME/indexer
     popd -1
 

@@ -1,4 +1,4 @@
-from indexer.utils import mq
+from indexer import mq
 
 
 
