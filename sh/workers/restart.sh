@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Import utils.
-source $CDF2CIM_INDEXER_PATH_SH/utils.sh
+source $CDF2CIM_INDEXER_HOME/sh/utils.sh
 
 # Main entry point.
 function main()
 {
-	source $CDF2CIM_INDEXER_PATH_SH/workers/stop.sh
-    source $CDF2CIM_INDEXER_PATH_SH/cache/flush.sh
-	source $CDF2CIM_INDEXER_PATH_SH/workers/start.sh
+	source $CDF2CIM_INDEXER_HOME/sh/workers/stop.sh
+    source $CDF2CIM_INDEXER_HOME/sh/cache/flush.sh
+	source $CDF2CIM_INDEXER_HOME/sh/workers/start.sh
 }
 
 # Invoke entry point.

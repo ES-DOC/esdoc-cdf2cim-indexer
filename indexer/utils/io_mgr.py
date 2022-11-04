@@ -12,7 +12,7 @@ from indexer.utils import logger
 _PATH_ARCHIVE = pathlib.Path(os.getenv("CDF2CIM_ARCHIVE_HOME")) / "data"
 
 # CDF2CIM work in progress folder.
-_PATH_WIP = pathlib.Path(os.path.expanduser('~/.cdf2cim-indexer'))
+_PATH_OUTPUT = pathlib.Path(os.getenv("CDF2CIM_INDEXER_HOME")) / "ops" / "output"
 
 # CDF2CIM JSON file type wrappers.
 _JSON_BLOB_TYPES = {
@@ -67,7 +67,7 @@ def write_json_blob(mip_era: str, institute: str, experiment: str, source_id: st
 
     """
     # Set base path.
-    path_base = _PATH_WIP / mip_era / institute / experiment / source_id / str(blob.ripf) / blob.calendar
+    path_base = _PATH_OUTPUT / mip_era / institute / experiment / source_id / str(blob.ripf) / blob.calendar
 
     # Create directories raw path.
     for dpath in (

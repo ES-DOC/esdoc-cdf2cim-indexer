@@ -2,22 +2,59 @@
 # PATHS
 # ###############################################################
 
-# Set home.
+# Set indexer home.
 export CDF2CIM_INDEXER_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Import paths.
-source $CDF2CIM_INDEXER_HOME/sh/utils/set_paths.sh
+# Set archive home.
+if [[ -z "${CDF2CIM_ARCHIVE_HOME}" ]]; then
+    TEMP_VAR="$( cd "$( dirname "${CDF2CIM_INDEXER_HOME[0]}" )" && pwd )"
+    if [[ -d $TEMP_VAR/cdf2cim-archive ]]; then
+        export CDF2CIM_ARCHIVE_HOME=$TEMP_VAR/cdf2cim-archive
+    fi
+    unset TEMP_VAR
+fi
+
+# Set python path.
+export PYTHONPATH=$CDF2CIM_INDEXER_HOME:$PYTHONPATH
 
 # ###############################################################
-# ENV
+# OPS
 # ###############################################################
+
+# Folders.
+if [[ ! -d $CDF2CIM_INDEXER_HOME/ops/config ]]; then
+    mkdir -p $CDF2CIM_INDEXER_HOME/ops/config
+    cp $CDF2CIM_INDEXER_HOME/resources/*.conf $CDF2CIM_INDEXER_HOME/ops/config
+fi
+if [[ ! -d $CDF2CIM_INDEXER_HOME/ops/daemon ]]; then
+    mkdir -p $CDF2CIM_INDEXER_HOME/ops/daemon
+fi
+if [[ ! -d $CDF2CIM_INDEXER_HOME/ops/output ]]; then
+    mkdir -p $CDF2CIM_INDEXER_HOME/ops/output
+fi
+if [[ ! -d $CDF2CIM_INDEXER_HOME/ops/logs ]]; then
+    mkdir -p $CDF2CIM_INDEXER_HOME/ops/logs
+fi
 
 # Import environment variables.
-source $CDF2CIM_INDEXER_PATH_ROOT/env
+if [[ -f $CDF2CIM_INDEXER_HOME/ops/config/env.conf ]]; then
+    source $CDF2CIM_INDEXER_HOME/ops/config/env.conf
+fi
+
+# Ensure shell scripts are executable.
+chmod a+x $CDF2CIM_INDEXER_HOME/sh/*.sh
+chmod a+x $CDF2CIM_INDEXER_HOME/sh/*/*.sh
 
 # ###############################################################
 # ALIASES
 # ###############################################################
 
-# Import aliases
-source $CDF2CIM_INDEXER_HOME/sh/utils/set_aliases.sh
+alias cdf2cim-indexer-cache-flush='$CDF2CIM_INDEXER_HOME/sh/cache/flush.sh'
+alias cdf2cim-indexer-interactive='$CDF2CIM_INDEXER_HOME/sh/workers/interactive.sh'
+alias cdf2cim-indexer-ls-vars=$CDF2CIM_INDEXER_HOME/sh/utils/ls_vars.sh
+alias cdf2cim-indexer-workers=$CDF2CIM_INDEXER_HOME/sh/workers/start.sh
+alias cdf2cim-indexer-workers-reload=$CDF2CIM_INDEXER_HOME/sh/workers/reload.sh
+alias cdf2cim-indexer-workers-restart=$CDF2CIM_INDEXER_HOME/sh/workers/restart.sh
+alias cdf2cim-indexer-workers-start=$CDF2CIM_INDEXER_HOME/sh/workers/start.sh
+alias cdf2cim-indexer-workers-status=$CDF2CIM_INDEXER_HOME/sh/workers/status.sh
+alias cdf2cim-indexer-workers-stop=$CDF2CIM_INDEXER_HOME/sh/workers/stop.sh

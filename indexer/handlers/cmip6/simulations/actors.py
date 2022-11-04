@@ -22,5 +22,6 @@ def process_simulation(institute: str, source_id: str, experiment: str):
     """
     # Set simulation wrapper.
     simulation: Simulation = get_simulation(institute, source_id, experiment)
+    print(simulation)
 
     # TODO: create cim docs and write
