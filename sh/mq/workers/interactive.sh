@@ -9,9 +9,9 @@ function main()
     # Escape if daemon is already running.
     daemon_socket=$CDF2CIM_INDEXER_HOME/ops/daemon/supervisord.sock
     if [ -e "$daemon_socket" ]; then
-        log "cdf2cim indexer workers are running in daemon mode:"
+        log "cdf2cim indexer consumers are running in daemon mode:"
         log "- if the socket file ($daemon_socket) is stale then clear it and retry,"
-        log "- otherwise stop the workers (cdf2cim-indexer-workers-stop) and retry."
+        log "- otherwise stop the consumers (cdf2cim-indexer-consumers-stop) and retry."
         exit 0
     fi
 

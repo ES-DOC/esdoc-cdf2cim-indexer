@@ -38,7 +38,6 @@ def get_broker() -> RabbitmqBroker:
     :returns: An instance of a Rabbit MQ broker.
 
     """
-    print(666)
     return RabbitmqBroker(url=_get_url())
 
 

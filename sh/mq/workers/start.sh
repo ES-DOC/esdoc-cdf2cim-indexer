@@ -15,7 +15,7 @@ function main()
     fi
 
 	# Reset logs.
-	source $CDF2CIM_INDEXER_HOME/sh/workers/reset_logs.sh
+	source $CDF2CIM_INDEXER_HOME/sh/mq/workers/reset_logs.sh
 
 	# Launch daemon.
 	pushd $CDF2CIM_INDEXER_HOME
@@ -25,7 +25,7 @@ function main()
 	
 	# Wait for daemon to start and display status.
 	sleep 3.0
-	source $CDF2CIM_INDEXER_HOME/sh/workers/status.sh
+	source $CDF2CIM_INDEXER_HOME/sh/mq/workers/status.sh
 }
 
 # Invoke entry point.

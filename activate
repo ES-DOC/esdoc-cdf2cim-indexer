@@ -50,11 +50,11 @@ chmod a+x $CDF2CIM_INDEXER_HOME/sh/*/*.sh
 
 alias cdf2cim-indexer-cache-flush='$CDF2CIM_INDEXER_HOME/sh/cache/flush.sh'
 alias cdf2cim-indexer-exec-producer=$CDF2CIM_INDEXER_HOME/sh/mq/producer.sh
-alias cdf2cim-indexer-interactive='$CDF2CIM_INDEXER_HOME/sh/workers/interactive.sh'
+alias cdf2cim-indexer-interactive='$CDF2CIM_INDEXER_HOME/sh/mq/workers/interactive.sh'
 alias cdf2cim-indexer-ls-vars=$CDF2CIM_INDEXER_HOME/sh/utils/ls_vars.sh
-alias cdf2cim-indexer-workers=$CDF2CIM_INDEXER_HOME/sh/workers/start.sh
-alias cdf2cim-indexer-workers-reload=$CDF2CIM_INDEXER_HOME/sh/workers/reload.sh
-alias cdf2cim-indexer-workers-restart=$CDF2CIM_INDEXER_HOME/sh/workers/restart.sh
-alias cdf2cim-indexer-workers-start=$CDF2CIM_INDEXER_HOME/sh/workers/start.sh
-alias cdf2cim-indexer-workers-status=$CDF2CIM_INDEXER_HOME/sh/workers/status.sh
-alias cdf2cim-indexer-workers-stop=$CDF2CIM_INDEXER_HOME/sh/workers/stop.sh
+alias cdf2cim-indexer-workers=$CDF2CIM_INDEXER_HOME/sh/mq/workers/start.sh
+alias cdf2cim-indexer-workers-reload=$CDF2CIM_INDEXER_HOME/sh/mq/workers/reload.sh
+alias cdf2cim-indexer-workers-restart=$CDF2CIM_INDEXER_HOME/sh/mq/workers/restart.sh
+alias cdf2cim-indexer-workers-start=$CDF2CIM_INDEXER_HOME/sh/mq/workers/start.sh
+alias cdf2cim-indexer-workers-status=$CDF2CIM_INDEXER_HOME/sh/mq/workers/status.sh
+alias cdf2cim-indexer-workers-stop=$CDF2CIM_INDEXER_HOME/sh/mq/workers/stop.sh
